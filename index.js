@@ -20,6 +20,14 @@ const puppeteer = require("puppeteer");
   // reach out to CDP;
   const client = await page.target().createCDPSession();
 
+  // set network throttling to level up stats
+  await client.send('Network.emulateNetworkConditions', {
+    'offline': false,
+    'downloadThroughput': 200 * 1024 / 8,
+    'uploadThroughput': 200 * 1024 / 8,
+    'latency': 200
+  })
+
   // needed to listen for Accessibility.loadComplete
   await client.send("Accessibility.enable");
 
