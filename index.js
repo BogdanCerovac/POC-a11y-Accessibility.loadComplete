@@ -7,14 +7,38 @@ const puppeteer = require('puppeteer');
     }
     console.log("URL: ", url);
 
-  const browser = await puppeteer.launch()
+    const browser = await puppeteer.launch({
+        headless:true, 
+        defaultViewport:null,
+        devtools: true
+      });
+
+
+
+
   const page = await browser.newPage()
+  page.setCacheEnabled(false);
+
+  
+  // reach out to CDP;
+  const client = await page.target().createCDPSession();
+
+  //console.log(client)
+
+  await client.send('Accessibility.enable');
+
+  //await client.send('Accessibility.loadComplete');
+client.on('Accessibility.loadComplete', (data) =>
+  console.log('Accessibility.loadComplete', JSON.stringify(data))
+);
+
+
   await page.goto(url);
   const title = await page.title()
-  console.log("Title of the page is: ", title)
+  //console.log("Title of the page is: ", title)
   const snapshot = await page.accessibility.snapshot();
-  console.log("snapshot");
-  console.log(snapshot);
+  //console.log("snapshot");
+  //console.log(snapshot);
   /*
 
   I thought this would be possible, but it isn't;
@@ -26,5 +50,10 @@ const puppeteer = require('puppeteer');
   console.log(loadComplete);
   
   */
+
+
+
+
+
   await browser.close()
 })()
