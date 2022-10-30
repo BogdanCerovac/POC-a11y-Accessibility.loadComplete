@@ -14,6 +14,9 @@ const puppeteer = require("puppeteer");
   });
   const page = await browser.newPage();
 
+  // no timeout, prevent throttling to timeout test
+  await page.setDefaultNavigationTimeout(0); 
+
   // clean state
   page.setCacheEnabled(false);
 
