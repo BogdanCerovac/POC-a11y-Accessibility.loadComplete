@@ -5,61 +5,53 @@ const puppeteer = require("puppeteer");
   if (!url) {
     throw "Please provide a URL as the first argument";
   }
-  console.log("Analyzing ", url);
+  console.log("Analyzing: " + url);
 
+  // setup browser
   const browser = await puppeteer.launch({
-    headless: true,
-    defaultViewport: null,
     devtools: true,
+    headless: true,
   });
-
   const page = await browser.newPage();
+
+  // clean state
   page.setCacheEnabled(false);
 
   // reach out to CDP;
   const client = await page.target().createCDPSession();
 
-  //console.log(client)
-
+  // needed to listen for Accessibility.loadComplete
   await client.send("Accessibility.enable");
 
-  //await client.send('Accessibility.loadComplete');
-  client.on("Accessibility.loadComplete", (data) => {
-    console.timeEnd("Accessibility.loadComplete");
-    // console.log('Accessibility.loadComplete', JSON.stringify(data))
-  });
-
+  // set up event listeners before runtime
+ 
   // https://developer.mozilla.org/en-US/docs/Web/API/Window/DOMContentLoaded_event
   page.on("domcontentloaded", () => {
     console.timeEnd("DOMContentLoaded_event");
   });
 
+  // CSS and images are now loaded
   page.on("load", () => {
     console.timeEnd("PageLoaded");
+    console.time("PageLoaded-2-Accessibility.loadComplete");
   });
 
+  // listen for Accessibility.loadComplete
+  client.on("Accessibility.loadComplete", (data) => {
+    console.timeEnd("Accessibility.loadComplete");
+    // console.log('Accessibility.loadComplete', JSON.stringify(data))
+    console.timeEnd("PageLoaded-2-Accessibility.loadComplete");
+  });
+
+ 
+  // stats init
+  console.time("DOMContentLoaded_event");
   console.time("PageLoaded");
   console.time("Accessibility.loadComplete");
-  console.time("DOMContentLoaded_event");
+
+  // runtime - navigate to URL
   await page.goto(url);
 
-  // const title = await page.title();
-
-  //console.log("Title of the page is: ", title)
-  // const snapshot = await page.accessibility.snapshot();
-  //console.log("snapshot");
-  //console.log(snapshot);
-  /*
-  
-    I thought this would be possible, but it isn't;
-  
-    https://pptr.dev/api/puppeteer.accessibility.snapshot
-  
-    const loadComplete = await page.accessibility.loadComplete;
-    console.log("loadComplete");
-    console.log(loadComplete);
-    
-    */
-
+  // finish
   await browser.close();
 })();
