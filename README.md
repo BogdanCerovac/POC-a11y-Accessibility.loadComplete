@@ -1,5 +1,15 @@
+
 # POC-a11y-Accessibility.loadComplete
 Proof of concept for Accessibility performance measurement - Accessibility.loadComplete
+
+## Preword
+
+I don't know if this is the right methodology, would need to check it from the screen-reader side to be more confident.
+Possibly NVDA could be used to check that out, but that would require NVDA, Python and probably C++ to make possible (out of my scope).
+In theory the loadComplete should do the trick, but needs to verify - a big TODO.
+
+(*The loadComplete event mirrors the load complete event sent by the browser to assistive technology when the web page has finished loading.*)
+
 
 ## Install
 
@@ -20,6 +30,13 @@ PageLoaded: 7.997s
 Accessibility.loadComplete: 8.032s
 PageLoaded-2-Accessibility.loadComplete: 34.715ms
 ```
+
+### Short notes on PageLoaded-2-Accessibility.loadComplete
+
+PageLoaded-2-Accessibility.loadComplete starts measuring when PageLoaded ends and ends measuring when Accessibility.loadComplete ends.
+The values of empiric tests seems off, so I guess the methodology isn't any good.
+Possibly we need to substract PageLoaded values from Accessibility.loadComplete values (?).
+TBD.
 
 ## Tech. details
 
