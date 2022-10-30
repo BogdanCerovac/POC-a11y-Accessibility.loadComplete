@@ -15,5 +15,16 @@ const puppeteer = require('puppeteer');
   const snapshot = await page.accessibility.snapshot();
   console.log("snapshot");
   console.log(snapshot);
+  /*
+
+  I thought this would be possible, but it isn't;
+
+  https://pptr.dev/api/puppeteer.accessibility.snapshot
+
+  const loadComplete = await page.accessibility.loadComplete;
+  console.log("loadComplete");
+  console.log(loadComplete);
+  
+  */
   await browser.close()
 })()
