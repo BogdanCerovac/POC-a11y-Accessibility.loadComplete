@@ -42,8 +42,12 @@ const { start } = require('repl');
         console.timeEnd("DOMContentLoaded_event");
     });
 
+    
+    page.on('load', () => {
+        console.timeEnd("PageLoaded");
+    });
 
-
+    console.time("PageLoaded");
     console.time("Accessibility.loadComplete");
     console.time("DOMContentLoaded_event");
     await page.goto(url);
