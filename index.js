@@ -23,10 +23,13 @@ const puppeteer = require("puppeteer");
   // set network throttling to level up stats
   await client.send('Network.emulateNetworkConditions', {
     'offline': false,
-    'downloadThroughput': 200 * 1024 / 8,
-    'uploadThroughput': 200 * 1024 / 8,
+    'downloadThroughput': 500 * 1024 / 8 * .8,
+    'uploadThroughput': 500 * 1024 / 8 * .8,
     'latency': 200
   })
+
+  // slow CPU throttling (4x slowdown - close to a median-quality device like the Moto G4) ref to https://addyosmani.com/blog/puppeteer-recipes/
+  await client.send('Emulation.setCPUThrottlingRate', { rate: 4 });
 
   // needed to listen for Accessibility.loadComplete
   await client.send("Accessibility.enable");
