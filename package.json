@@ -1,0 +1,24 @@
+{
+  "name": "poc-a11y-accessibility.loadcomplete",
+  "version": "1.0.0",
+  "description": "Proof of concept for Accessibility performance measuerement - Accessibility.loadComplete",
+  "main": "index.js",
+  "dependencies": {
+    "puppeteer": "^19.2.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start" : "node index.js https://www.w3.org/TR/wai-aria-1.2/",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BogdanCerovac/POC-a11y-Accessibility.loadComplete.git"
+  },
+  "author": "Bogdan.Cerovac@gmail.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BogdanCerovac/POC-a11y-Accessibility.loadComplete/issues"
+  },
+  "homepage": "https://github.com/BogdanCerovac/POC-a11y-Accessibility.loadComplete#readme"
+}
