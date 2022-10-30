@@ -30,21 +30,22 @@ const { start } = require('repl');
     //await client.send('Accessibility.loadComplete');
     client.on('Accessibility.loadComplete', (data) => {
 
-        console.timeEnd("a11y");
+        console.timeEnd("Accessibility.loadComplete");
         // console.log('Accessibility.loadComplete', JSON.stringify(data))
 
 
     });
 
 
+    // https://developer.mozilla.org/en-US/docs/Web/API/Window/DOMContentLoaded_event
     page.on('domcontentloaded', () => {
-        console.timeEnd("page");
+        console.timeEnd("DOMContentLoaded_event");
     });
 
 
 
-    console.time("a11y");
-    console.time("page");
+    console.time("Accessibility.loadComplete");
+    console.time("DOMContentLoaded_event");
     await page.goto(url);
 
 
